@@ -3,8 +3,10 @@ import "./App.css";
 import Quizz from "./components/Quizz";
 import { questions, moneyPyramid } from './data'
 import Timer from "./components/Timer";
+import Start from "./components/Start";
 
 function App() {
+  const [username, setUsername] = useState(null);
   const [questionNumber, setQuestionNumber] = useState(1);
   const [stop, setStop] = useState(false);
   const [earned, setEarned] = useState("$ 0");
@@ -18,16 +20,29 @@ function App() {
       setStop(true);
     }
   }, [questionNumber]);
-  
+
+  const restartGame = () => {
+    setQuestionNumber(1);
+    setStop(false);
+    setEarned("$ 0");
+  };
+
   return (
     <div className="app">
-      <div className="main">
-        {stop ? ( 
-          questionNumber > 15 ? (
+      {username ? (
+        <>
+          <div className="main">
+        {stop ? (
+          <div className="endGame">
+            {questionNumber > 15 ? (
             <h1 className="endText">🎉 Bravo ! Vous êtes MILLIONNAIRE 💰</h1>
           ) : (
             <h1 className="endText">Vous remportez la somme de : {earned}</h1>
-          )
+          )}
+          <button className="restartButton" onClick={restartGame}>
+            Rejouer
+          </button>
+          </div>
         ) : (
         <>
           <div className="top">
@@ -56,6 +71,10 @@ function App() {
           ))}
         </ul>
       </div>
+        </>
+      ) : ( 
+        <Start setUsername={setUsername} />
+      )}
     </div>
   );
 }
