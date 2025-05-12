@@ -12,10 +12,23 @@ function App() {
   useEffect(() => {
     questionNumber > 1 && setEarned(moneyPyramid.find(m => m.id === questionNumber - 1).amount);
   }, [questionNumber]);
+
+  useEffect(() => {
+    if (questionNumber > 15) {
+      setStop(true);
+    }
+  }, [questionNumber]);
+  
   return (
     <div className="app">
       <div className="main">
-        {stop ? ( <h1 className="endText">Tu remportes la somme de : {earned}</h1> ) : (
+        {stop ? ( 
+          questionNumber > 15 ? (
+            <h1 className="endText">🎉 Bravo ! Vous êtes MILLIONNAIRE 💰</h1>
+          ) : (
+            <h1 className="endText">Vous remportez la somme de : {earned}</h1>
+          )
+        ) : (
         <>
           <div className="top">
             <div className="timer">
